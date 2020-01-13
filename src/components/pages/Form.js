@@ -1,27 +1,28 @@
-import React, { Component } from "react";
-import axios from "axios";
-import withContext from "../../context/withContext";
-import PolaTekstowe from "../layout/form/PolaTekstowe";
-import Argumenty from "../layout/form/Argumenty";
-import TypZwracany from "../layout/form/TypZwracany";
-import SubmitButton from "../layout/form/SubmitButton";
-import StrukturaFunkcji from "../layout/form/StrukturaFunkcji";
-import Testy from "../layout/form/Testy";
-import Editor from "../layout/form/Editor";
-import Rekurencja from "../layout/form/Rekurencja";
-import SubmitMessage from "../layout/form/SubmitMessage";
-import { Form, MyPaper, Wrapper } from "../../styles/Form";
+import React, { Component } from 'react'
+import axios from 'axios'
+
+import withContext from '../../context/withContext'
+import PolaTekstowe from '../layout/form/PolaTekstowe'
+import Argumenty from '../layout/form/Argumenty'
+import TypZwracany from '../layout/form/TypZwracany'
+import SubmitButton from '../layout/form/SubmitButton'
+import StrukturaFunkcji from '../layout/form/StrukturaFunkcji'
+import Testy from '../layout/form/Testy'
+import Editor from '../layout/form/Editor'
+import Rekurencja from '../layout/form/Rekurencja'
+import SubmitMessage from '../layout/form/SubmitMessage'
+import { Form, MyPaper, Wrapper } from '../../styles/Form'
 
 class Landing extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      imieINazwisko: "",
-      nazwaFunkcji: "",
+      imieINazwisko: '',
+      nazwaFunkcji: '',
       zlaNazwaFunkcji: false,
-      tytulZadania: "",
-      opisZadania: "",
-      strukturaFunkcji: "",
+      tytulZadania: '',
+      opisZadania: '',
+      strukturaFunkcji: '',
       iloscArg: 1, //ile parametrów ma funkcja
       iloscWynikow: 1, //ile zestawów wartości do przeprowadzenia testu wysłał uzytkownik
       args: [...Array(2)], //typy parametrów funkcji np. string
@@ -32,10 +33,10 @@ class Landing extends Component {
       error: {},
       postSuccess: false,
       indeksyTablic: [],
-      code: ""
-    };
+      code: ''
+    }
 
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   stopReload = e => {
@@ -45,58 +46,58 @@ class Landing extends Component {
       tytulZadania,
       opisZadania,
       code
-    } = this.state;
+    } = this.state
     if (imieINazwisko || nazwaFunkcji || tytulZadania || opisZadania || code) {
-      e.preventDefault();
+      e.preventDefault()
       /* tego wymaga Chrome */
-      e.returnValue = "";
+      e.returnValue = ''
     }
-  };
+  }
 
   componentDidMount() {
     //zabezpieczenie przed przeładowaniem strony, w momencie kiedy coś znajduje sie w formularzu
-    window.addEventListener("beforeunload", this.stopReload);
+    window.addEventListener('beforeunload', this.stopReload)
   }
 
   componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.stopReload);
+    window.removeEventListener('beforeunload', this.stopReload)
   }
 
   onEditorChange = (newValue, e) => {
-    this.setState({ code: newValue });
+    this.setState({ code: newValue })
     //console.log("onChange", newValue, e);
-  };
+  }
 
   isEmpty = array => {
-    const { iloscArg } = this.state;
-    let result = false;
+    const { iloscArg } = this.state
+    let result = false
     array.forEach((elem, i) => {
       if (
-        (elem === undefined || elem === "" || elem === null) &&
+        (elem === undefined || elem === '' || elem === null) &&
         i <= iloscArg * 2 - 1
       )
-        result = true;
-    });
-    return result;
-  };
+        result = true
+    })
+    return result
+  }
 
   deleteSpaces = text => {
-    let newText = Array.from(text);
-    if (typeof text === "string") {
+    let newText = Array.from(text)
+    if (typeof text === 'string') {
       Array.from(text).forEach((elem, i) => {
-        if (elem === " " && text[i + 1] === " ") {
-          newText[i] = "";
+        if (elem === ' ' && text[i + 1] === ' ') {
+          newText[i] = ''
         } else {
-          newText[i] = elem;
+          newText[i] = elem
         }
-      });
+      })
     }
-    return newText.join("");
-  };
+    return newText.join('')
+  }
 
   async onSubmit(e) {
-    e.preventDefault();
-    const online = navigator.onLine;
+    e.preventDefault()
+    const online = navigator.onLine
     const {
       imieINazwisko,
       nazwaFunkcji,
@@ -109,7 +110,7 @@ class Landing extends Component {
       wyniki,
       czyRekurencja,
       code
-    } = this.state;
+    } = this.state
 
     //const pureCode = code.replace(/[^\S ]/gi, ''); //wymazuje wszystkie biale znaki oprócz spacji z kodu
     /* const pureCode = this.deleteSpaces(code); */
@@ -125,18 +126,18 @@ class Landing extends Component {
       wyniki,
       czyRekurencja,
       code
-    };
+    }
 
-    console.log("submit", values);
+    console.log('submit', values)
     if (online) {
       try {
-        const res = await axios.post("/api/tasks", values);
+        const res = await axios.post('/api/tasks', values)
         this.setState(
           {
-            nazwaFunkcji: "",
-            imieINazwisko: "",
-            tytulZadania: "",
-            opisZadania: "",
+            nazwaFunkcji: '',
+            imieINazwisko: '',
+            tytulZadania: '',
+            opisZadania: '',
             iloscArg: 1,
             iloscWynikow: 1,
             args: [...Array(2)],
@@ -146,75 +147,75 @@ class Landing extends Component {
             loading: false,
             error: {},
             postSuccess: true,
-            code: ""
+            code: ''
           },
           () =>
             setTimeout(() => {
-              this.setState({ postSuccess: false });
+              this.setState({ postSuccess: false })
             }, 5000)
-        );
-        console.log("Submit succesed", res);
+        )
+        console.log('Submit succesed', res)
       } catch (err) {
-        let error = {};
+        let error = {}
         if (err.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-          if (typeof err.response.data === "string") {
-            error.messages = [err.response.data];
+          console.log(err.response.data)
+          console.log(err.response.status)
+          console.log(err.response.headers)
+          if (typeof err.response.data === 'string') {
+            error.messages = [err.response.data]
           } else {
-            error.messages = [...Object.values(err.response.data)];
-            error.types = [...Object.keys(err.response.data)];
+            error.messages = [...Object.values(err.response.data)]
+            error.types = [...Object.keys(err.response.data)]
           }
-          error.type = "response";
+          error.type = 'response'
           //console.log("types i messages", types, messages);
         } else if (err.request) {
           // The request was made but no response was received
           // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
           // http.ClientRequest in node.js
-          console.log(err.request);
-          error.messages = [...Object.values(err.request)];
-          error.type = "request";
+          console.log(err.request)
+          error.messages = [...Object.values(err.request)]
+          error.type = 'request'
         } else {
           // Something happened in setting up the request that triggered an Error
-          console.log("Error", err.message);
-          error.messages = [err.message];
-          error.type = "other";
+          console.log('Error', err.message)
+          error.messages = [err.message]
+          error.type = 'other'
         }
-        this.setState({ loading: false, error });
+        this.setState({ loading: false, error })
       }
     } else {
       const error = {
         messages: ["There's no internet connection"]
-      };
-      this.setState({ loading: false, error });
+      }
+      this.setState({ loading: false, error })
     }
   }
 
   handleTextInputChange = name => event => {
-    if (name !== "nazwaFunkcji") {
-      this.setState({ [name]: event.target.value });
+    if (name !== 'nazwaFunkcji') {
+      this.setState({ [name]: event.target.value })
     } else {
-      const regex = /^[a-z]/gi;
-      const regex2 = /[^a-z0-9]+/gi;
+      const regex = /^[a-z]/gi
+      const regex2 = /[^a-z0-9]+/gi
       if (event.target.value.length === 0) {
         return this.setState({
           [name]: event.target.value,
           zlaNazwaFunkcji: false
-        });
+        })
       } else if (event.target.value.length === 1) {
         if (!regex.test(event.target.value)) {
           return this.setState({
             [name]: event.target.value,
             zlaNazwaFunkcji: true
-          });
+          })
         } else {
           return this.setState({
             [name]: event.target.value,
             zlaNazwaFunkcji: false
-          });
+          })
         }
       } else {
         if (
@@ -224,26 +225,26 @@ class Landing extends Component {
           return this.setState({
             [name]: event.target.value,
             zlaNazwaFunkcji: true
-          });
+          })
         } else {
           return this.setState({
             [name]: event.target.value,
             zlaNazwaFunkcji: false
-          });
+          })
         }
       }
     }
-  };
+  }
 
   handleSliderChange = value => {
-    let args = [...this.state.args];
-    const { iloscWynikow } = this.state;
-    const x = (value + 1) * iloscWynikow;
+    let args = [...this.state.args]
+    const { iloscWynikow } = this.state
+    const x = (value + 1) * iloscWynikow
     if (args.length === 0) {
-      args = [...Array(value * 2)];
+      args = [...Array(value * 2)]
     }
     if (args.length < value * 2) {
-      args = [...args, ...Array(value * 2 - args.length)];
+      args = [...args, ...Array(value * 2 - args.length)]
     }
     this.setState(
       {
@@ -252,114 +253,114 @@ class Landing extends Component {
         wyniki: [...Array.from(Array(x))]
       },
       () => {
-        const indeksyTablic = this.calculateArrayIndexes();
-        this.setState({ indeksyTablic });
+        const indeksyTablic = this.calculateArrayIndexes()
+        this.setState({ indeksyTablic })
       }
-    );
-  };
+    )
+  }
 
   handleSwitchChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
+    this.setState({ [name]: event.target.checked })
+  }
 
   handleArgTypeChange = i => j => arrayName => valueObject => {
-    let args = [...this.state[arrayName]];
-    args[i * 2 + j] = valueObject === null ? valueObject : valueObject.value;
+    let args = [...this.state[arrayName]]
+    args[i * 2 + j] = valueObject === null ? valueObject : valueObject.value
 
     this.setState({ [arrayName]: args }, () => {
-      const indeksyTablic = this.calculateArrayIndexes();
-      this.setState({ indeksyTablic });
-    });
-  };
+      const indeksyTablic = this.calculateArrayIndexes()
+      this.setState({ indeksyTablic })
+    })
+  }
 
   calculateArrayIndexes = () => {
-    let args = [...this.state.args];
-    let returnArgs = [...this.state.returnArgs];
-    const { iloscArg, iloscWynikow } = this.state;
-    const indeksyTablic = [];
+    let args = [...this.state.args]
+    let returnArgs = [...this.state.returnArgs]
+    const { iloscArg, iloscWynikow } = this.state
+    const indeksyTablic = []
 
     args.forEach((elem, i) => {
-      if (elem === "Tablica []") indeksyTablic.push(i / 2);
-    });
+      if (elem === 'Tablica []') indeksyTablic.push(i / 2)
+    })
     for (let i = 0; i < iloscWynikow - 1; i++) {
       indeksyTablic.forEach((elem, j) => {
-        indeksyTablic.push(elem + iloscArg + 1);
-      });
+        indeksyTablic.push(elem + iloscArg + 1)
+      })
     }
 
-    if (returnArgs[0] === "Tablica []") {
+    if (returnArgs[0] === 'Tablica []') {
       for (let i = 0; i < iloscWynikow; i++) {
-        indeksyTablic.push((i + 1) * (iloscArg + 1) - 1);
+        indeksyTablic.push((i + 1) * (iloscArg + 1) - 1)
       }
     }
 
-    return indeksyTablic;
-  };
+    return indeksyTablic
+  }
 
   handleWynikiChange = i => event => {
-    const wyniki = [...this.state.wyniki];
-    wyniki[i] = event.target.value; //.replace(/\s/, '');
-    this.setState({ wyniki });
-  };
+    const wyniki = [...this.state.wyniki]
+    wyniki[i] = event.target.value //.replace(/\s/, '');
+    this.setState({ wyniki })
+  }
 
   changeNumberOfResults = znak => () => {
-    const { iloscWynikow, iloscArg } = this.state;
-    const wyniki = [...this.state.wyniki];
-    if (znak === "+") {
+    const { iloscWynikow, iloscArg } = this.state
+    const wyniki = [...this.state.wyniki]
+    if (znak === '+') {
       this.setState(
         {
           iloscWynikow: iloscWynikow + 1,
           wyniki: [...wyniki, ...Array.from(Array(iloscArg + 1))]
         },
         () => {
-          const indeksyTablic = this.calculateArrayIndexes();
-          this.setState({ indeksyTablic });
+          const indeksyTablic = this.calculateArrayIndexes()
+          this.setState({ indeksyTablic })
         }
-      );
-    } else if (znak === "-" && iloscWynikow !== 1) {
-      const ucieteWyniki = [];
+      )
+    } else if (znak === '-' && iloscWynikow !== 1) {
+      const ucieteWyniki = []
       for (let i = 0; i < (iloscArg + 1) * (iloscWynikow - 1); i++) {
-        ucieteWyniki.push(wyniki[i]);
+        ucieteWyniki.push(wyniki[i])
       }
       this.setState(
         { iloscWynikow: iloscWynikow - 1, wyniki: ucieteWyniki },
         () => {
-          const indeksyTablic = this.calculateArrayIndexes();
-          this.setState({ indeksyTablic });
+          const indeksyTablic = this.calculateArrayIndexes()
+          this.setState({ indeksyTablic })
         }
-      );
+      )
     }
-  };
+  }
 
   generateFunctionStructure = () => {
-    const { nazwaFunkcji, args, returnArgs, iloscArg } = this.state;
-    const args2 = [];
+    const { nazwaFunkcji, args, returnArgs, iloscArg } = this.state
+    const args2 = []
     if (iloscArg === 0) {
-      args2.push("");
+      args2.push('')
     } else {
       for (let i = 0; i < iloscArg * 2 - 1; i = i + 2) {
-        if (args[i] === "Tablica []") {
-          args2.push(`${args[i + 1]}[] Arg${i / 2 + 1}`);
+        if (args[i] === 'Tablica []') {
+          args2.push(`${args[i + 1]}[] Arg${i / 2 + 1}`)
         } else {
-          args2.push(`${args[i + 1]} arg${i / 2 + 1}`);
+          args2.push(`${args[i + 1]} arg${i / 2 + 1}`)
         }
       }
     }
 
     let returnArgs2 =
-      returnArgs[0] === "Tablica []"
+      returnArgs[0] === 'Tablica []'
         ? `${returnArgs[1]}[] ${nazwaFunkcji}`
-        : `${returnArgs[1]} ${nazwaFunkcji}`;
+        : `${returnArgs[1]} ${nazwaFunkcji}`
 
-    return `${returnArgs2}(${args2.join(", ")})`;
-  };
+    return `${returnArgs2}(${args2.join(', ')})`
+  }
 
   onSubmitClick = () => {
-    this.setState({ loading: true, error: {} });
-  };
+    this.setState({ loading: true, error: {} })
+  }
 
   render() {
-    const { classes, context } = this.props;
+    const { classes, isMobile } = this.props
     const {
       imieINazwisko,
       nazwaFunkcji,
@@ -377,83 +378,73 @@ class Landing extends Component {
       postSuccess,
       indeksyTablic,
       code
-    } = this.state;
+    } = this.state
+
     const argsCheck =
       (this.isEmpty(args) && iloscArg !== 0) ||
       this.isEmpty(returnArgs) ||
-      this.isEmpty(wyniki);
-
-    console.log({ wyniki });
+      this.isEmpty(wyniki)
 
     const isInvalid =
-      opisZadania === "" ||
-      tytulZadania === "" ||
-      nazwaFunkcji === "" ||
-      code === "" ||
+      opisZadania === '' ||
+      tytulZadania === '' ||
+      nazwaFunkcji === '' ||
+      code === '' ||
       argsCheck ||
-      zlaNazwaFunkcji;
+      zlaNazwaFunkcji
+
     return (
       <Wrapper>
-        <MyPaper isMobile={context.isMobile}>
+        <MyPaper isMobile={isMobile}>
           <Form onSubmit={this.onSubmit}>
             <PolaTekstowe
-              classes={classes}
-              error={error}
+              {...{
+                classes,
+                error,
+                imieINazwisko,
+                tytulZadania,
+                nazwaFunkcji,
+                opisZadania,
+                zlaNazwaFunkcji
+              }}
               handleTextInputChange={this.handleTextInputChange}
-              imieINazwisko={imieINazwisko}
-              tytulZadania={tytulZadania}
-              nazwaFunkcji={nazwaFunkcji}
-              opisZadania={opisZadania}
-              zlaNazwaFunkcji={zlaNazwaFunkcji}
             />
             <Argumenty
-              iloscArg={iloscArg}
+              {...{ iloscArg, args }}
               handleArgTypeChange={this.handleArgTypeChange}
               handleSliderChange={this.handleSliderChange}
-              args={args}
             />
             <TypZwracany
-              handleArgTypeChange={this.handleArgTypeChange}
               returnArgs={returnArgs}
+              handleArgTypeChange={this.handleArgTypeChange}
             />
             <StrukturaFunkcji
-              nazwaFunkcji={nazwaFunkcji}
-              returnArgs={returnArgs}
-              iloscArg={iloscArg}
+              {...{ nazwaFunkcji, returnArgs, iloscArg, args }}
               isEmpty={this.isEmpty}
               generateFunctionStructure={this.generateFunctionStructure}
-              args={args}
             />
             <Editor code={code} onEditorChange={this.onEditorChange} />
             <Testy
               handleWynikiChange={this.handleWynikiChange}
-              iloscWynikow={iloscWynikow}
-              iloscArg={iloscArg}
-              wyniki={wyniki}
-              indeksyTablic={indeksyTablic}
               changeNumberOfResults={this.changeNumberOfResults}
+              {...{ iloscWynikow, iloscArg, wyniki, indeksyTablic }}
             />
             <Rekurencja
               czyRekurencja={czyRekurencja}
               handleSwitchChange={this.handleSwitchChange}
             />
             <SubmitButton
-              isInvalid={isInvalid}
-              loading={loading}
+              {...{ isInvalid, loading }}
               onSubmitClick={this.onSubmitClick}
             />
           </Form>
-          <SubmitMessage
-            error={error}
-            postSuccess={postSuccess}
-            isMobile={context.isMobile}
-          />
+          <SubmitMessage {...{ error, postSuccess, isMobile }} />
         </MyPaper>
       </Wrapper>
-    );
+    )
   }
 }
 
-Landing.propTypes = {};
+Landing.propTypes = {}
 
-export default withContext(Landing);
+export default withContext(Landing)

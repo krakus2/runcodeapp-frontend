@@ -1,8 +1,8 @@
-import React from "react";
-import { AppContext } from "./ContextProvider";
+import React from 'react'
+import { Context } from './index'
 
 export default Component => props => (
-  <AppContext.Consumer>
-    {context => <Component {...props} {...{ context }} />}
-  </AppContext.Consumer>
-);
+  <Context.Consumer>
+    {context => <Component {...props} {...context} />}
+  </Context.Consumer>
+)

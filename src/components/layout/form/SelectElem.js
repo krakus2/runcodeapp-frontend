@@ -1,91 +1,60 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withTheme } from "styled-components";
-import Select from "react-select";
+import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
+import { withTheme } from 'styled-components'
+import Select from 'react-select'
 
-import { addAlphaChannel } from "../../../utils/utils";
-import withContext from "../../../context/withContext";
+import { Context } from '../../../context'
 
-class SelectElem extends Component {
-  colourStyles = {
-    control: styles => ({ ...styles, cursor: "pointer" }),
-    option: styles => ({ ...styles, cursor: "pointer" }),
-    input: styles => ({
-      ...styles,
-      width: this.props.context.isMobile ? "100%" : "100%",
-      minHeight: "35px",
-      lineHeight: "35px",
-      color: this.props.theme.highBlack,
-      cursor: "pointer"
-    }),
-    placeholder: styles => ({
-      ...styles,
-      color: this.props.theme.lowBlack,
-      cursor: "pointer",
-      fontSize: this.props.context.isMobile && "15px"
-    }),
-    singleValue: styles => ({
-      ...styles,
-      color: this.props.theme.highBlack,
-      cursor: "pointer"
-    })
-  };
-  render() {
-    const {
-      i,
-      handleArgTypeChange,
-      argsName,
-      secondColumn,
-      values,
-      title,
-      args
-    } = this.props;
-    let conditionalValue;
-    if (secondColumn === true) {
-      if (args[i * 2 + 1] === null || args[i * 2 + 1] === undefined) {
-        conditionalValue = "";
-      } else {
-        conditionalValue = args[i * 2 + 1];
+import {
+  createSelectColorStyles,
+  selectConditionalValueResolver,
+  selectColorsResolver
+} from './utils'
+
+const SelectElem = ({
+  theme,
+  i,
+  handleArgTypeChange,
+  argsName,
+  secondColumn,
+  values,
+  title,
+  args
+}) => {
+  const { isMobile } = useContext(Context)
+
+  const colourStyles = createSelectColorStyles({ isMobile, theme })
+  const conditionalValue = selectConditionalValueResolver({
+    secondColumn,
+    args,
+    i
+  })
+
+  const selectValue = {
+    value: conditionalValue !== '' &&
+      conditionalValue !== null && {
+        value: conditionalValue,
+        label: conditionalValue
       }
-    } else {
-      if (args[i * 2] === null || args[i * 2] === undefined) {
-        conditionalValue = "";
-      } else {
-        conditionalValue = args[i * 2];
-      }
-    }
-    const value = {
-      value: conditionalValue !== "" &&
-        conditionalValue !== null && {
-          value: conditionalValue,
-          label: conditionalValue
-        }
-    };
-    return (
-      <Select
-        label={title}
-        placeholder={title}
-        options={values.map(elem => ({ value: elem, label: elem }))}
-        styles={this.colourStyles}
-        theme={theme => ({
-          ...theme,
-          colors: {
-            ...theme.colors,
-            primary25: addAlphaChannel(this.props.theme.primaryColor, "0.2"),
-            primary50: addAlphaChannel(this.props.theme.primaryColor, "0.5"),
-            primary: this.props.theme.primaryColor,
-            neutral20: this.props.theme.lowBlack,
-            neutral30: this.props.theme.mediumBlack
-          }
-        })}
-        onChange={handleArgTypeChange(i)(secondColumn === true ? 1 : 0)(
-          argsName
-        )}
-        isClearable
-        {...value}
-      />
-    );
   }
+
+  return (
+    <Select
+      label={title}
+      placeholder={title}
+      options={values.map(elem => ({ value: elem, label: elem }))}
+      styles={colourStyles}
+      theme={selectTheme => ({
+        ...selectTheme,
+        colors: {
+          ...selectColorsResolver({ selectTheme, theme })
+        }
+      })}
+      onChange={handleArgTypeChange(i)(secondColumn === true ? 1 : 0)(argsName)}
+      isClearable
+      {...selectValue}
+    />
+  )
 }
 
 SelectElem.propTypes = {
@@ -95,6 +64,6 @@ SelectElem.propTypes = {
   secondColumn: PropTypes.bool.isRequired,
   values: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired
-};
+}
 
-export default withContext(withTheme(SelectElem));
+export default withTheme(SelectElem)

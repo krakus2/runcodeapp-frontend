@@ -1,7 +1,6 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
-import PropTypes from "prop-types";
-import withContext from "../../context/withContext";
+import React from 'react'
+import styled, { keyframes } from 'styled-components'
+import PropTypes from 'prop-types'
 
 const beforeSlideIn = keyframes`
    from {
@@ -12,7 +11,7 @@ const beforeSlideIn = keyframes`
       transform: translateX(-50%);
       background-color: rgba(0, 0, 0, 0.8);
    }
-`;
+`
 
 /* const beforeSlideIn = keyframes`
   from {
@@ -34,7 +33,7 @@ const afterSlide = keyframes`
       transform: translateX(0);
       border-top-color: rgba(0, 0, 0, 0.8);
    }
-`;
+`
 
 const TooltipStyle = styled.div`
    @media (hover) {
@@ -97,14 +96,14 @@ const TooltipStyle = styled.div`
       will-change: transform;
    }
 }
-`;
+`
 
 const Tooltip = ({ children, title }) => (
   <TooltipStyle title={title}>{children}</TooltipStyle>
-);
+)
 
 Tooltip.propTypes = {
   title: PropTypes.string.isRequired
-};
+}
 
-export default withContext(Tooltip);
+export default Tooltip
