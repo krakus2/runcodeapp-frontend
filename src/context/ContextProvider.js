@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useMatchMedia from '../hooks/useMatchMedia'
+import { useMatchMedia } from '../hooks'
 
 import { ContextProvider } from './index'
 

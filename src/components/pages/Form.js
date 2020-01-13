@@ -49,13 +49,12 @@ class Landing extends Component {
     } = this.state
     if (imieINazwisko || nazwaFunkcji || tytulZadania || opisZadania || code) {
       e.preventDefault()
-      /* tego wymaga Chrome */
       e.returnValue = ''
     }
   }
 
   componentDidMount() {
-    //zabezpieczenie przed przeładowaniem strony, w momencie kiedy coś znajduje sie w formularzu
+    //protection against unwanted site reload, while form is filled with values
     window.addEventListener('beforeunload', this.stopReload)
   }
 
@@ -63,9 +62,8 @@ class Landing extends Component {
     window.removeEventListener('beforeunload', this.stopReload)
   }
 
-  onEditorChange = (newValue, e) => {
+  onEditorChange = newValue => {
     this.setState({ code: newValue })
-    //console.log("onChange", newValue, e);
   }
 
   isEmpty = array => {
@@ -79,20 +77,6 @@ class Landing extends Component {
         result = true
     })
     return result
-  }
-
-  deleteSpaces = text => {
-    let newText = Array.from(text)
-    if (typeof text === 'string') {
-      Array.from(text).forEach((elem, i) => {
-        if (elem === ' ' && text[i + 1] === ' ') {
-          newText[i] = ''
-        } else {
-          newText[i] = elem
-        }
-      })
-    }
-    return newText.join('')
   }
 
   async onSubmit(e) {
@@ -112,8 +96,6 @@ class Landing extends Component {
       code
     } = this.state
 
-    //const pureCode = code.replace(/[^\S ]/gi, ''); //wymazuje wszystkie biale znaki oprócz spacji z kodu
-    /* const pureCode = this.deleteSpaces(code); */
     const values = {
       imieINazwisko,
       nazwaFunkcji,
@@ -299,7 +281,7 @@ class Landing extends Component {
 
   handleWynikiChange = i => event => {
     const wyniki = [...this.state.wyniki]
-    wyniki[i] = event.target.value //.replace(/\s/, '');
+    wyniki[i] = event.target.value
     this.setState({ wyniki })
   }
 
