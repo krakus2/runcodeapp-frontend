@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import Tooltip from '../../reusable/Tooltip'
-import Button from '../../reusable/Button'
-import { ButtonWrapper } from '../../../styles/Form'
-import { Context } from '../../../context'
+
+import { Tooltip, Button } from 'components'
+import { Context } from 'context'
+
+import { ButtonWrapper } from '../styledComponents'
 
 const Submit = ({ isInvalid, loading, onSubmitClick }) => {
   const { isMobile } = useContext(Context)

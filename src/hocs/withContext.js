@@ -1,5 +1,6 @@
 import React from 'react'
-import { Context } from './index'
+
+import { Context } from 'context'
 
 export default Component => props => (
   <Context.Consumer>

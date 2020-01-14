@@ -1,7 +1,8 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
-import PropTypes from "prop-types";
-import InlineMessage from "./InlineMessage";
+import React from 'react'
+import styled, { withTheme } from 'styled-components'
+import PropTypes from 'prop-types'
+
+import InlineMessage from './InlineMessage'
 
 const InputStyles = styled.div`
   margin: ${props => props.margin};
@@ -11,9 +12,9 @@ const InputStyles = styled.div`
   }
   label {
     width: 100%;
-    display: ${props => (props.label ? "block" : "none")};
-    font-size: ${props => (props.small ? "13px" : "15px")};
-    ${props => props.centerLabel && "text-align: center"};
+    display: ${props => (props.label ? 'block' : 'none')};
+    font-size: ${props => (props.small ? '13px' : '15px')};
+    ${props => props.centerLabel && 'text-align: center'};
     color: ${props =>
       props.error ? props.theme.errorColor : props.theme.highLowerBlack};
     font-weight: 500;
@@ -22,7 +23,7 @@ const InputStyles = styled.div`
     }
   }
   .myInput {
-    margin: ${props => (props.small ? "2px 0" : "10px 0")};
+    margin: ${props => (props.small ? '2px 0' : '10px 0')};
     color: ${props => props.theme.highBlack};
     display: block;
     position: relative;
@@ -31,13 +32,13 @@ const InputStyles = styled.div`
     border-radius: 4px;
     width: 100%;
     ${props =>
-      !props.textarea && (props.small ? "height: 35px" : "height: 50px")};
+      !props.textarea && (props.small ? 'height: 35px' : 'height: 50px')};
     ${props =>
       !props.textarea &&
-      (props.small ? "line-height: 35px" : "line-height: 55px")};
-    font-size: ${props => (props.small ? "14px" : "18px")};
-    padding: ${props => (!props.textarea ? "5px 8px" : "10px 8px")};
-    font-feature-settings: "tnum";
+      (props.small ? 'line-height: 35px' : 'line-height: 55px')};
+    font-size: ${props => (props.small ? '14px' : '18px')};
+    padding: ${props => (!props.textarea ? '5px 8px' : '10px 8px')};
+    font-feature-settings: 'tnum';
     transition: border 0.3s ease, box-shadow 0.2s ease;
     outline: none;
     box-sizing: border-box;
@@ -66,27 +67,27 @@ const InputStyles = styled.div`
     background-color: ${props => props.theme.lowestBlack};
     border: 1px solid ${props => props.theme.lowBlack};
   }
-`;
+`
 
 class Input extends React.Component {
   constructor() {
-    super();
-    this.myRef = React.createRef();
-    this.focus = this.focus.bind(this);
+    super()
+    this.myRef = React.createRef()
+    this.focus = this.focus.bind(this)
   }
   static defaultProps = {
-    type: "text",
-    message: "",
-    placeholder: "",
+    type: 'text',
+    message: '',
+    placeholder: '',
     error: false,
     disabled: false,
     textarea: false,
     small: false,
-    rows: "4",
-    label: "",
+    rows: '4',
+    label: '',
     centerLabel: false,
-    margin: "0"
-  };
+    margin: '0'
+  }
   static propTypes = {
     type: PropTypes.string,
     message: PropTypes.string,
@@ -103,10 +104,10 @@ class Input extends React.Component {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired
-  };
+  }
 
   focus() {
-    this.myRef.current.focus();
+    this.myRef.current.focus()
   }
 
   render() {
@@ -127,9 +128,9 @@ class Input extends React.Component {
       centerLabel,
       margin,
       theme
-    } = this.props;
+    } = this.props
 
-    const commonProps = { type, value, onChange, name, placeholder, disabled };
+    const commonProps = { type, value, onChange, name, placeholder, disabled }
     return (
       <InputStyles
         onClick={this.focus}
@@ -138,14 +139,14 @@ class Input extends React.Component {
         <label htmlFor={name}>{label}</label>
         {!textarea ? (
           <input
-            className="myInput"
+            className='myInput'
             ref={this.myRef}
             id={name}
             {...commonProps}
           />
         ) : (
           <textarea
-            className="myInput myTextarea"
+            className='myInput myTextarea'
             id={name}
             ref={this.myRef}
             {...commonProps}
@@ -162,8 +163,8 @@ class Input extends React.Component {
           />
         )}
       </InputStyles>
-    );
+    )
   }
 }
 
-export default withTheme(Input);
+export default withTheme(Input)

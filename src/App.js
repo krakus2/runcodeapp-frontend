@@ -1,11 +1,10 @@
 import React, { Suspense } from 'react'
 import { ThemeProvider } from 'styled-components'
 
-import ContextProvider from './context/ContextProvider'
-import GlobalStyle from './GlobalStyle'
-import Header from './components/layout/Header'
-import Form from './components/pages/Form'
-import theme from './theme'
+import ContextProvider from 'context/ContextProvider'
+import GlobalStyle from 'globalStyle'
+import Form from 'pages/Form'
+import theme from 'theme'
 
 const App = () => (
   <ContextProvider>
@@ -25,7 +24,6 @@ const App = () => (
         }
       >
         <GlobalStyle />
-        <Header />
         <Form />
       </Suspense>
     </ThemeProvider>

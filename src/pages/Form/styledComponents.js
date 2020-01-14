@@ -1,13 +1,14 @@
-import styled from "styled-components";
-import { addAlphaChannel } from "../utils/utils";
-import { device } from "./breakpoints";
+import styled from 'styled-components'
+
+import { addAlphaChannel } from 'utils'
+import { device } from 'styles/breakpoints'
 
 export const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: ${props => props.theme.backgroundColor};
-`;
+`
 
 export const MyPaper = styled.div`
   display: flex;
@@ -26,17 +27,17 @@ export const MyPaper = styled.div`
     padding: 45px 60px;
     width: 550px;
   }
-`;
+`
 
 export const Form = styled.form`
   width: 100%;
-`;
+`
 
 export const EditorWrapper = styled.div`
   margin-top: 8px;
   width: 100%;
   height: 600px;
-`;
+`
 
 //TODO - wywalic to do wlasnego komponentu
 export const ButtonWrapper = styled.div`
@@ -81,7 +82,7 @@ export const ButtonWrapper = styled.div`
       transform: rotate(360deg);
     }
   }
-`;
+`
 
 export const SliderWrapper = styled.div`
   display: flex;
@@ -106,25 +107,25 @@ export const SliderWrapper = styled.div`
       }
     }
   }
-`;
+`
 
 export const SelectWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 15px;
-  margin-bottom: ${props => !props.last && "15px"};
-`;
+  margin-bottom: ${props => !props.last && '15px'};
+`
 
 export const RowWrapper = styled.div`
   display: flex;
-  flex-direction: ${props => (props.column ? "column" : "row")};
+  flex-direction: ${props => (props.column ? 'column' : 'row')};
   flex-wrap: wrap;
   margin: ${props => props.theme.defaultSpacing};
   position: relative;
   width: 100%;
   margin-left: ${props =>
-    props.leftMargin ? props.theme.defaultSpacing : "0px"};
-`;
+    props.leftMargin ? props.theme.defaultSpacing : '0px'};
+`
 
 export const GridWrapper = styled.div`
   display: grid;
@@ -137,9 +138,9 @@ export const GridWrapper = styled.div`
   grid-auto-rows: auto;
   grid-column-gap: 20px;
   margin-top: 10px;
-`;
+`
 
 export const Span = styled.span`
-  color: ${props => addAlphaChannel(props.theme.secondaryColor, "0.95")};
+  color: ${props => addAlphaChannel(props.theme.secondaryColor, '0.95')};
   font-weight: 600;
-`;
+`

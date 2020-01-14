@@ -1,7 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { device } from "../../styles/breakpoints";
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+
+import { device } from 'styles/breakpoints'
 
 export const ButtonStyles = styled.button`
   background-color: ${props => props.theme.secondaryColor};
@@ -46,44 +47,44 @@ export const ButtonStyles = styled.button`
     right: 50%;
     bottom: 0;
     opacity: 0;
-    content: "";
+    content: '';
     z-index: -3;
     background-color: ${props =>
       props.color ? props.color : props.theme.primaryColor};
   }
   :hover {
-    ${props => !props.disabled && "color: white"};
+    ${props => !props.disabled && 'color: white'};
     border-color: ${props => !props.disabled && props.theme.primaryColor};
     cursor: pointer;
     :before {
-      content: "";
-      ${props => !props.disabled && "left: 0"};
-      ${props => !props.disabled && "right: 0"};
-      ${props => !props.disabled && "opacity: 1"};
+      content: '';
+      ${props => !props.disabled && 'left: 0'};
+      ${props => !props.disabled && 'right: 0'};
+      ${props => !props.disabled && 'opacity: 1'};
     }
   }
   :focus {
-    ${props => !props.disabled && "color: white"};
+    ${props => !props.disabled && 'color: white'};
     :before {
       ${props =>
         !props.disabled &&
         `background-color: ${props.theme.primaryColorDarker}`};
-      ${props => !props.disabled && "left: 0"};
-      ${props => !props.disabled && "right: 0"};
-      ${props => !props.disabled && "opacity: 1"};
+      ${props => !props.disabled && 'left: 0'};
+      ${props => !props.disabled && 'right: 0'};
+      ${props => !props.disabled && 'opacity: 1'};
     }
   }
-`;
+`
 
 class Button extends React.Component {
   constructor() {
-    super();
-    this.myRef = React.createRef();
-    this.blur = this.blur.bind(this);
+    super()
+    this.myRef = React.createRef()
+    this.blur = this.blur.bind(this)
   }
 
   blur() {
-    this.myRef.current.blur();
+    this.myRef.current.blur()
   }
   render() {
     const {
@@ -96,7 +97,7 @@ class Button extends React.Component {
       fontSize,
       top,
       margin
-    } = this.props;
+    } = this.props
     return (
       <ButtonStyles
         ref={this.myRef}
@@ -105,18 +106,18 @@ class Button extends React.Component {
       >
         {children}
       </ButtonStyles>
-    );
+    )
   }
 }
 
 Button.defaultProps = {
-  type: "button",
+  type: 'button',
   disabled: false,
-  height: "48px",
-  fontSize: "20px",
-  top: "0",
-  margin: "0"
-};
+  height: '48px',
+  fontSize: '20px',
+  top: '0',
+  margin: '0'
+}
 Button.propTypes = {
   type: PropTypes.string,
   disabled: PropTypes.bool,
@@ -125,6 +126,6 @@ Button.propTypes = {
   fontSize: PropTypes.string,
   top: PropTypes.string,
   margin: PropTypes.string
-};
+}
 
-export default Button;
+export default Button

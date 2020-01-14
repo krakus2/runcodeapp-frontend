@@ -2,13 +2,13 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import AddRemoveButtons from './AddRemoveButtons'
-import { GridWrapper, RowWrapper } from '../../../styles/Form'
-import Tooltip from '../../reusable/Tooltip'
-import Input from '../../reusable/Input'
-import { Context } from '../../../context'
+import { Tooltip, Input } from 'components'
+import { Context } from 'context'
 
-import { generateTestsLabelAndName, generateTestsGrid } from './utils'
+import { GridWrapper, RowWrapper } from '../styledComponents'
+import AddRemoveButtons from './AddRemoveButtons'
+
+import { generateTestsLabelAndName, generateTestsGrid } from '../utils'
 
 const ArrayMarkers = styled.div`
   display: flex;

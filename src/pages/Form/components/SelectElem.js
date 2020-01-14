@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
 import Select from 'react-select'
 
-import { Context } from '../../../context'
+import { Context } from 'context'
 
 import {
   createSelectColorStyles,
   selectConditionalValueResolver,
   selectColorsResolver
-} from './utils'
+} from '../utils'
 
 const SelectElem = ({
   theme,

@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-import withContext from '../../context/withContext'
-import PolaTekstowe from '../layout/form/PolaTekstowe'
-import Argumenty from '../layout/form/Argumenty'
-import TypZwracany from '../layout/form/TypZwracany'
-import SubmitButton from '../layout/form/SubmitButton'
-import StrukturaFunkcji from '../layout/form/StrukturaFunkcji'
-import Testy from '../layout/form/Testy'
-import Editor from '../layout/form/Editor'
-import Rekurencja from '../layout/form/Rekurencja'
-import SubmitMessage from '../layout/form/SubmitMessage'
-import { Form, MyPaper, Wrapper } from '../../styles/Form'
+import { withContext } from 'hocs'
+
+import {
+  PolaTekstowe,
+  Argumenty,
+  TypZwracany,
+  SubmitButton,
+  StrukturaFunkcji,
+  Testy,
+  Editor,
+  Rekurencja,
+  SubmitMessage
+} from './components'
+import { Form, MyPaper, Wrapper } from './styledComponents'
 
 class Landing extends Component {
   constructor(props) {

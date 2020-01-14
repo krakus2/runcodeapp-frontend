@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useContext } from 'react'
-import { Context } from '../../../context'
-import { RowWrapper, EditorWrapper } from '../../../styles/Form.js'
+
+import { Context } from 'context'
+import { RowWrapper, EditorWrapper } from '../styledComponents'
 
 const MonacoEditor = lazy(() => import('react-monaco-editor'))
 

@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
 const RoundedButtonStyles = styled.button`
   position: relative;
@@ -26,7 +26,7 @@ const RoundedButtonStyles = styled.button`
     color: ${props => props.theme.lowBlack};
   }
   :before {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
@@ -41,7 +41,7 @@ const RoundedButtonStyles = styled.button`
   :hover {
     background-color: ${props =>
       !props.disabled &&
-      (props.color ? "blue" : props.theme.primaryColorDarker)};
+      (props.color ? 'blue' : props.theme.primaryColorDarker)};
     cursor: pointer;
   }
   :focus {
@@ -61,23 +61,23 @@ const RoundedButtonStyles = styled.button`
       transition: width 0.2s ease-out, padding-top 0.2s ease-out;
     }
   }
-`;
+`
 
 class RoundedButton extends React.Component {
   constructor() {
-    super();
-    this.myRef = React.createRef();
-    this.blur = this.blur.bind(this);
+    super()
+    this.myRef = React.createRef()
+    this.blur = this.blur.bind(this)
   }
 
   blur() {
-    this.myRef.current.blur();
+    this.myRef.current.blur()
   }
   render() {
-    const { color, disabled, children, onClick } = this.props;
+    const { color, disabled, children, onClick } = this.props
     return (
       <RoundedButtonStyles
-        type="button"
+        type='button'
         color={color}
         disabled={disabled}
         ref={this.myRef}
@@ -86,11 +86,11 @@ class RoundedButton extends React.Component {
       >
         {children}
       </RoundedButtonStyles>
-    );
+    )
   }
 }
 
-RoundedButton.defaultProps = {};
-RoundedButton.propTypes = {};
+RoundedButton.defaultProps = {}
+RoundedButton.propTypes = {}
 
-export default RoundedButton;
+export default RoundedButton
