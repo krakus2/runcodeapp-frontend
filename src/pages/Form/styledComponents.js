@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { addAlphaChannel } from 'utils'
-import { device } from 'styles/breakpoints'
+import { device } from 'theme'
 
 export const Wrapper = styled.main`
   display: flex;

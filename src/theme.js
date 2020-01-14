@@ -19,4 +19,10 @@ export const sizes = {
   desktop: 1000
 }
 
+export const device = {
+  mobile: `(min-width: ${sizes.mobile}px) and (max-width: ${sizes.desktop -
+    1}px)`,
+  desktop: `(min-width: ${sizes.desktop}px)`
+}
+
 export default theme

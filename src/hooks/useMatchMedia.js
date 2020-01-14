@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useRef } from 'react'
 
-import { sizes } from '../theme'
+import { sizes } from 'theme'
 
 const BREAKPOINTS = {
   DESKTOP: 'desktop',

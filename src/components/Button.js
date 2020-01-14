@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-import { device } from 'styles/breakpoints'
+import { device } from 'theme'
 
 export const ButtonStyles = styled.button`
   background-color: ${props => props.theme.secondaryColor};
