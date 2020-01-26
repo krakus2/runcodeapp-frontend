@@ -100,9 +100,9 @@ class Landing extends Component {
     try {
       makeValidation(values)
       const data = generateTaskStructure(values)
-      console.log({ data })
+      const { host, port = '' } = window.options.server
 
-      await axios.post(`${process.env.REACT_APP_HOST}/api/tasks`, data)
+      await axios.post(`${host}${port}/api/tasks`, data)
 
       this.setState(
         {
@@ -371,7 +371,5 @@ class Landing extends Component {
     )
   }
 }
-
-Landing.propTypes = {}
 
 export default withContext(Landing)
