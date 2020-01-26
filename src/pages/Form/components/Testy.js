@@ -53,7 +53,7 @@ const Testy = ({
           <ArrayMarkers key={i}>
             <Input
               {...generateTestsLabelAndName({ i, iloscArg })}
-              value={wyniki[i] != undefined ? wyniki[i] : ''}
+              value={wyniki[i] !== undefined ? wyniki[i] : ''}
               onChange={handleWynikiChange(i)}
               small
               centerLabel
@@ -67,7 +67,7 @@ const Testy = ({
         <div key={i}>
           <Input
             {...generateTestsLabelAndName({ i, iloscArg })}
-            value={wyniki[i] != undefined ? wyniki[i] : ''}
+            value={wyniki[i] !== undefined ? wyniki[i] : ''}
             onChange={handleWynikiChange(i)}
             small
             centerLabel

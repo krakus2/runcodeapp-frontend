@@ -15,29 +15,14 @@ import {
   SubmitMessage
 } from './components'
 import { Form, MyPaper, Wrapper } from './styledComponents'
+import { INITIAL_FORM_STATE } from './consts'
+import { makeValidation, formatErrorMessages } from './utils'
+import generateTaskStructure from './generateTaskStructure'
 
 class Landing extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      imieINazwisko: '',
-      nazwaFunkcji: '',
-      zlaNazwaFunkcji: false,
-      tytulZadania: '',
-      opisZadania: '',
-      strukturaFunkcji: '',
-      iloscArg: 1, //ile parametrów ma funkcja
-      iloscWynikow: 1, //ile zestawów wartości do przeprowadzenia testu wysłał uzytkownik
-      args: [...Array(2)], //typy parametrów funkcji np. string
-      returnArgs: [...Array(2)], //typ zwracany przez funkcje np. string
-      wyniki: [...Array(2)], //wartości, które posłużą do przeprowadzenia testu np. a = 2, b = 3 i wartość zwracana 6
-      czyRekurencja: false, //czy w funkcji zachodzi rekurencja
-      loading: false,
-      error: {},
-      postSuccess: false,
-      indeksyTablic: [],
-      code: ''
-    }
+    this.state = { ...INITIAL_FORM_STATE }
 
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -84,7 +69,6 @@ class Landing extends Component {
 
   async onSubmit(e) {
     e.preventDefault()
-    const online = navigator.onLine
     const {
       imieINazwisko,
       nazwaFunkcji,
@@ -113,69 +97,27 @@ class Landing extends Component {
       code
     }
 
-    console.log('submit', values)
-    if (online) {
-      try {
-        const res = await axios.post('/api/tasks', values)
-        this.setState(
-          {
-            nazwaFunkcji: '',
-            imieINazwisko: '',
-            tytulZadania: '',
-            opisZadania: '',
-            iloscArg: 1,
-            iloscWynikow: 1,
-            args: [...Array(2)],
-            returnArgs: [...Array(2)],
-            wyniki: [...Array(2)],
-            czyRekurencja: false,
-            loading: false,
-            error: {},
-            postSuccess: true,
-            code: ''
-          },
-          () =>
-            setTimeout(() => {
-              this.setState({ postSuccess: false })
-            }, 5000)
-        )
-        console.log('Submit succesed', res)
-      } catch (err) {
-        let error = {}
-        if (err.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(err.response.data)
-          console.log(err.response.status)
-          console.log(err.response.headers)
-          if (typeof err.response.data === 'string') {
-            error.messages = [err.response.data]
-          } else {
-            error.messages = [...Object.values(err.response.data)]
-            error.types = [...Object.keys(err.response.data)]
-          }
-          error.type = 'response'
-          //console.log("types i messages", types, messages);
-        } else if (err.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(err.request)
-          error.messages = [...Object.values(err.request)]
-          error.type = 'request'
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', err.message)
-          error.messages = [err.message]
-          error.type = 'other'
-        }
-        this.setState({ loading: false, error })
-      }
-    } else {
-      const error = {
-        messages: ["There's no internet connection"]
-      }
-      this.setState({ loading: false, error })
+    try {
+      makeValidation(values)
+      const data = generateTaskStructure(values)
+      console.log({ data })
+
+      await axios.post(`${process.env.REACT_APP_HOST}/api/tasks`, data)
+
+      this.setState(
+        {
+          ...INITIAL_FORM_STATE,
+          loading: false,
+          postSuccess: true
+        },
+        () =>
+          setTimeout(() => {
+            this.setState({ postSuccess: false })
+          }, 5000)
+      )
+    } catch (err) {
+      const errorMessages = formatErrorMessages(err)
+      this.setState({ loading: false, error: errorMessages })
     }
   }
 

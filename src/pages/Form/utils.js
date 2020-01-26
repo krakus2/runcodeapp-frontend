@@ -1,4 +1,5 @@
 import { addAlphaChannel } from 'utils'
+import { validateProfileInput } from 'utils/validators'
 
 export const deleteSpaces = text => {
   let newText = Array.from(text)
@@ -84,7 +85,26 @@ export const generateTestsLabelAndName = ({ i, iloscArg }) => {
     object.name = `Wynik${i}`
   } else {
     object.label = `Arg ${(i % (iloscArg + 1)) + 1}`
-    object.name = `Arg ${(i % (iloscArg + 1)) + 1}`
+    object.name = `Arg ${(i % (iloscArg + 1)) + 1} ${i}`
   }
   return object
+}
+
+export const makeValidation = data => {
+  const { errors, isValid } = validateProfileInput(data)
+  if (!isValid) {
+    throw errors
+  }
+}
+
+export const formatErrorMessages = err => {
+  const error = {}
+  if (typeof err === 'string') {
+    error.messages = [err]
+  } else {
+    error.messages = [...Object.values(err)]
+    error.types = [...Object.keys(err)]
+  }
+
+  return error
 }
