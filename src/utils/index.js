@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { setupCache } from 'axios-cache-adapter'
 
-export const validateEmail = email => {
+export const validateEmail = (email) => {
   const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(email)
 }
 
-export const hexToRgb = hex =>
+export const hexToRgb = (hex) =>
   hex
     .replace(
       /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
@@ -14,7 +14,7 @@ export const hexToRgb = hex =>
     )
     .substring(1)
     .match(/.{2}/g)
-    .map(x => parseInt(x, 16))
+    .map((x) => parseInt(x, 16))
 
 export const addAlphaChannel = (color, a) =>
   `rgba(${hexToRgb(color).join(', ')}, ${a})`
@@ -30,7 +30,7 @@ export const isMobile = () => {
 export function getParams(location) {
   const searchParams = new URLSearchParams(location)
   return {
-    task_id: searchParams.get('task_id') || ''
+    task_id: searchParams.get('task_id') || '',
   }
 }
 
@@ -45,12 +45,12 @@ export function getSqlYear(d) {
 }
 
 const cache = setupCache({
-  maxAge: 15 * 60 * 1000 //15 minutes
+  maxAge: 15 * 60 * 1000, //15 minutes
 })
 
 // Create `axios` instance passing the newly created `cache.adapter`
 const api = axios.create({
-  adapter: cache.adapter
+  adapter: cache.adapter,
 })
 
 export async function getDataFromDB(fromValue, task_id) {
@@ -58,16 +58,15 @@ export async function getDataFromDB(fromValue, task_id) {
     const d = new Date()
     d.setDate(d.getDate() - fromValue)
     const sqlDate = getSqlYear(d)
-    const length = await cache.store.length()
-    console.log('Cache store length:', length)
+
     return api({
       url: `/api/tests/task_id=${task_id}&test_date=${sqlDate}&from_value=${fromValue}`,
-      method: 'get'
+      method: 'get',
     })
   } else {
     return api({
       url: `/api/tests/task_id=${task_id}&test_date=all&from_value=${fromValue}`,
-      method: 'get'
+      method: 'get',
     })
   }
 }
@@ -77,16 +76,15 @@ export async function getDataFromDB2(fromValue, task_id, from, to) {
     const d = new Date()
     d.setDate(d.getDate() - fromValue)
     const sqlDate = getSqlYear(d)
-    const length = await cache.store.length()
-    console.log('Cache store length:', length)
+
     return api({
       url: `/api/tests/task_id=${task_id}&test_date=${sqlDate}&from=${from}&to=${to}`,
-      method: 'get'
+      method: 'get',
     })
   } else {
     return api({
       url: `/api/tests/task_id=${task_id}&test_date=all&from=${from}&to=${to}`,
-      method: 'get'
+      method: 'get',
     })
   }
 }
@@ -94,14 +92,12 @@ export async function getDataFromDB2(fromValue, task_id, from, to) {
 export function memoize(f) {
   let store = new Map(JSON.parse(localStorage.getItem('store'))) || new Map()
 
-  return function(...args) {
+  return function (...args) {
     //dodać maxAge
     const k = JSON.stringify(args)
     if (store.has(k)) {
-      console.log('z cachem')
       return store.get(k)
     } else {
-      console.log("bez cache'a")
       store.set(k, f(...args))
       localStorage.setItem('store', JSON.stringify(Array.from(store.entries())))
       return store.get(k)
@@ -109,7 +105,7 @@ export function memoize(f) {
   }
 }
 
-export const isEmpty = value =>
+export const isEmpty = (value) =>
   value === undefined ||
   value === null ||
   value === '' ||

@@ -12,7 +12,7 @@ import {
   Testy,
   Editor,
   Rekurencja,
-  SubmitMessage
+  SubmitMessage,
 } from './components'
 import { Form, MyPaper, Wrapper } from './styledComponents'
 import { INITIAL_FORM_STATE } from './consts'
@@ -27,15 +27,9 @@ class Landing extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  stopReload = e => {
-    const {
-      imieINazwisko,
-      nazwaFunkcji,
-      tytulZadania,
-      opisZadania,
-      code
-    } = this.state
-    if (imieINazwisko || nazwaFunkcji || tytulZadania || opisZadania || code) {
+  stopReload = (e) => {
+    const { nazwaFunkcji, tytulZadania, opisZadania, code } = this.state
+    if (nazwaFunkcji || tytulZadania || opisZadania || code) {
       e.preventDefault()
       e.returnValue = ''
     }
@@ -50,27 +44,13 @@ class Landing extends Component {
     window.removeEventListener('beforeunload', this.stopReload)
   }
 
-  onEditorChange = newValue => {
+  onEditorChange = (newValue) => {
     this.setState({ code: newValue })
-  }
-
-  isEmpty = array => {
-    const { iloscArg } = this.state
-    let result = false
-    array.forEach((elem, i) => {
-      if (
-        (elem === undefined || elem === '' || elem === null) &&
-        i <= iloscArg * 2 - 1
-      )
-        result = true
-    })
-    return result
   }
 
   async onSubmit(e) {
     e.preventDefault()
     const {
-      imieINazwisko,
       nazwaFunkcji,
       tytulZadania,
       opisZadania,
@@ -80,11 +60,10 @@ class Landing extends Component {
       returnArgs,
       wyniki,
       czyRekurencja,
-      code
+      code,
     } = this.state
 
     const values = {
-      imieINazwisko,
       nazwaFunkcji,
       tytulZadania,
       opisZadania,
@@ -92,9 +71,9 @@ class Landing extends Component {
       iloscWynikow,
       args,
       returnArgs,
+      code,
       wyniki,
       czyRekurencja,
-      code
     }
 
     try {
@@ -102,13 +81,13 @@ class Landing extends Component {
       const data = generateTaskStructure(values)
       const { host, port = '' } = window.options.server
 
-      await axios.post(`${host}${port}/api/tasks`, data)
+      await axios.post(`${host}${port}/api/task`, data)
 
       this.setState(
         {
-          ...INITIAL_FORM_STATE,
+          /*  ...INITIAL_FORM_STATE, */
           loading: false,
-          postSuccess: true
+          postSuccess: true,
         },
         () =>
           setTimeout(() => {
@@ -121,7 +100,7 @@ class Landing extends Component {
     }
   }
 
-  handleTextInputChange = name => event => {
+  handleTextInputChange = (name) => (event) => {
     if (name !== 'nazwaFunkcji') {
       this.setState({ [name]: event.target.value })
     } else {
@@ -130,18 +109,18 @@ class Landing extends Component {
       if (event.target.value.length === 0) {
         return this.setState({
           [name]: event.target.value,
-          zlaNazwaFunkcji: false
+          zlaNazwaFunkcji: false,
         })
       } else if (event.target.value.length === 1) {
         if (!regex.test(event.target.value)) {
           return this.setState({
             [name]: event.target.value,
-            zlaNazwaFunkcji: true
+            zlaNazwaFunkcji: true,
           })
         } else {
           return this.setState({
             [name]: event.target.value,
-            zlaNazwaFunkcji: false
+            zlaNazwaFunkcji: false,
           })
         }
       } else {
@@ -151,19 +130,19 @@ class Landing extends Component {
         ) {
           return this.setState({
             [name]: event.target.value,
-            zlaNazwaFunkcji: true
+            zlaNazwaFunkcji: true,
           })
         } else {
           return this.setState({
             [name]: event.target.value,
-            zlaNazwaFunkcji: false
+            zlaNazwaFunkcji: false,
           })
         }
       }
     }
   }
 
-  handleSliderChange = value => {
+  handleSliderChange = (value) => {
     let args = [...this.state.args]
     const { iloscWynikow } = this.state
     const x = (value + 1) * iloscWynikow
@@ -177,7 +156,7 @@ class Landing extends Component {
       {
         iloscArg: value,
         args,
-        wyniki: [...Array.from(Array(x))]
+        wyniki: [...Array.from(Array(x))],
       },
       () => {
         const indeksyTablic = this.calculateArrayIndexes()
@@ -186,11 +165,11 @@ class Landing extends Component {
     )
   }
 
-  handleSwitchChange = name => event => {
+  handleSwitchChange = (name) => (event) => {
     this.setState({ [name]: event.target.checked })
   }
 
-  handleArgTypeChange = i => j => arrayName => valueObject => {
+  handleArgTypeChange = (i) => (j) => (arrayName) => (valueObject) => {
     let args = [...this.state[arrayName]]
     args[i * 2 + j] = valueObject === null ? valueObject : valueObject.value
 
@@ -224,20 +203,20 @@ class Landing extends Component {
     return indeksyTablic
   }
 
-  handleWynikiChange = i => event => {
+  handleWynikiChange = (i) => (event) => {
     const wyniki = [...this.state.wyniki]
     wyniki[i] = event.target.value
     this.setState({ wyniki })
   }
 
-  changeNumberOfResults = znak => () => {
+  changeNumberOfResults = (znak) => () => {
     const { iloscWynikow, iloscArg } = this.state
     const wyniki = [...this.state.wyniki]
     if (znak === '+') {
       this.setState(
         {
           iloscWynikow: iloscWynikow + 1,
-          wyniki: [...wyniki, ...Array.from(Array(iloscArg + 1))]
+          wyniki: [...wyniki, ...Array.from(Array(iloscArg + 1))],
         },
         () => {
           const indeksyTablic = this.calculateArrayIndexes()
@@ -286,10 +265,22 @@ class Landing extends Component {
     this.setState({ loading: true, error: {} })
   }
 
+  isEmpty = (array, isArgsChecking) => {
+    const { iloscArg } = this.state
+    let result = false
+    array.forEach((elem, i) => {
+      if (
+        (elem === undefined || elem === '' || elem === null) &&
+        (!isArgsChecking || i <= iloscArg * 2 - 1)
+      )
+        result = true
+    })
+    return result
+  }
+
   render() {
     const { classes, isMobile } = this.props
     const {
-      imieINazwisko,
       nazwaFunkcji,
       zlaNazwaFunkcji,
       tytulZadania,
@@ -304,11 +295,11 @@ class Landing extends Component {
       error,
       postSuccess,
       indeksyTablic,
-      code
+      code,
     } = this.state
 
     const argsCheck =
-      (this.isEmpty(args) && iloscArg !== 0) ||
+      (this.isEmpty(args, true) && iloscArg !== 0) ||
       this.isEmpty(returnArgs) ||
       this.isEmpty(wyniki)
 
@@ -328,11 +319,10 @@ class Landing extends Component {
               {...{
                 classes,
                 error,
-                imieINazwisko,
                 tytulZadania,
                 nazwaFunkcji,
                 opisZadania,
-                zlaNazwaFunkcji
+                zlaNazwaFunkcji,
               }}
               handleTextInputChange={this.handleTextInputChange}
             />

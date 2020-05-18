@@ -8,7 +8,7 @@ const StrukturaFunkcji = ({
   iloscArg,
   isEmpty,
   generateFunctionStructure,
-  args
+  args,
 }) => (
   <>
     <RowWrapper>
@@ -17,7 +17,7 @@ const StrukturaFunkcji = ({
     <RowWrapper>
       <h4 style={{ margin: 0, fontWeight: 400, fontSize: '17px' }}>
         {nazwaFunkcji.length === 0 ||
-        (isEmpty(args) && iloscArg !== 0) ||
+        (isEmpty(args, true) && iloscArg !== 0) ||
         isEmpty(returnArgs) ? (
           'int NazwaFunkcji(int A) - przykładowa nazwa - wypełnij wszystkie pola, aby wygenerować swoją'
         ) : (

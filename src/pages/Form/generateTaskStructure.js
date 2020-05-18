@@ -1,16 +1,11 @@
-function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n)
-}
+const isNumeric = (n) => !isNaN(parseFloat(n)) && isFinite(n)
 
-function escapeRegExp(str) {
-  return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1')
-}
+const escapeRegExp = (str) => str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1')
 
-function replaceAll(str, find, replaceArg) {
-  return str.replace(new RegExp(escapeRegExp(find), 'g'), replaceArg)
-}
+const replaceAll = (str, find, replaceArg) =>
+  str.replace(new RegExp(escapeRegExp(find), 'g'), replaceArg)
 
-const zmienNazwyTypow = typ => {
+const zmienNazwyTypow = (typ) => {
   let returnType = typ
   if (returnType === 'long') returnType = 'int64'
   if (returnType === 'int') returnType = 'int32'
@@ -20,7 +15,7 @@ const zmienNazwyTypow = typ => {
   return 'System.' + returnType.charAt(0).toUpperCase() + returnType.slice(1)
 }
 
-const returnValue = value => {
+const returnValue = (value) => {
   if (typeof value !== 'string') return ''
   if (isNumeric(value)) {
     return Number(value)
@@ -42,17 +37,22 @@ const returnArrayValue = value => {
   });
 };
 
-export const generateTaskStructure = task => {
+export const generateTaskStructure = (task) => {
+  const filteredResults = task.wyniki.filter(
+    (_, i) => (i + 1) % (task.iloscArg + 1)
+  )
+
   const finalResult = {}
   finalResult.title = task.tytulZadania
   finalResult.description = task.opisZadania
+  finalResult.code = task.code.replace(/  |\r\n|\n|\r/gm, '') //usuwa wszystkie tabulacje i znaki nowej linii
   finalResult.tests = []
 
   for (let i = 0; i < task.iloscWynikow; i++) {
     let result = {}
     result.MethodName = task.nazwaFunkcji
-    result.Code = task.code.replace(/  |\r\n|\n|\r/gm, '') //usuwa wszystkie tabulacje i znaki nowej linii
     result.Parameters = []
+
     for (let j = 0; j < task.iloscArg; j++) {
       const paramObject = {}
       paramObject.TypeName =
@@ -61,17 +61,17 @@ export const generateTaskStructure = task => {
           : `${zmienNazwyTypow(task.args[j * 2 + 1])}[]`
       paramObject.Value =
         task.args[j * 2] === 'Typ prosty'
-          ? returnValue(task.wyniki[i * 2])
-          : returnArrayValue(task.wyniki[i * 2])
+          ? returnValue(filteredResults[i * task.iloscArg + j])
+          : returnArrayValue(filteredResults[i * task.iloscArg + j])
       result.Parameters.push(paramObject)
     }
     result.ResultTypeName =
-      task.returnArg === 'Typ prosty'
+      task.returnArgs[0] === 'Typ prosty'
         ? `${zmienNazwyTypow(task.returnArgs[1])}`
         : `${zmienNazwyTypow(task.returnArgs[1])}[]`
 
     result.ExpectedResult =
-      task.returnArg === 'Typ prosty'
+      task.returnArgs[0] === 'Typ prosty'
         ? returnValue(task.wyniki[(task.iloscArg + 1) * (i + 1) - 1])
         : returnArrayValue(task.wyniki[(task.iloscArg + 1) * (i + 1) - 1])
     if (task.czyRekurencja) {

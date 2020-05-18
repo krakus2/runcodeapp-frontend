@@ -1,5 +1,4 @@
 export const INITIAL_FORM_STATE = {
-  imieINazwisko: '',
   nazwaFunkcji: '',
   tytulZadania: '',
   opisZadania: '',
@@ -12,5 +11,5 @@ export const INITIAL_FORM_STATE = {
   loading: false,
   error: {},
   indeksyTablic: [],
-  code: ''
+  code: '',
 }

@@ -2,18 +2,8 @@ import Validator from 'validator'
 
 import { isEmpty } from './index'
 
-export const validateProfileInput = data => {
+export const validateProfileInput = (data) => {
   let errors = {}
-  if (isEmpty(data.imieINazwisko) || Validator.isEmpty(data.imieINazwisko)) {
-    errors.imieINazwisko = 'Imię i nazwisko jest wymagane'
-  }
-  if (!errors.imieINazwisko) {
-    if (!Validator.isLength(data.imieINazwisko, { min: 1, max: 80 })) {
-      errors.imieINazwisko =
-        'Maksymalna długość imienia i nazwiska to 80 znaków'
-    }
-  }
-
   if (isEmpty(data.nazwaFunkcji) || Validator.isEmpty(data.nazwaFunkcji)) {
     errors.nazwaFunkcji = 'Nazwa funkcji jest wymagana'
   }
@@ -90,6 +80,6 @@ export const validateProfileInput = data => {
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   }
 }

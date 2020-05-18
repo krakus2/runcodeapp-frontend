@@ -1,7 +1,7 @@
 import { addAlphaChannel } from 'utils'
 import { validateProfileInput } from 'utils/validators'
 
-export const deleteSpaces = text => {
+export const deleteSpaces = (text) => {
   let newText = Array.from(text)
   if (typeof text === 'string') {
     Array.from(text).forEach((elem, i) => {
@@ -16,27 +16,27 @@ export const deleteSpaces = text => {
 }
 
 export const createSelectColorStyles = ({ isMobile, theme }) => ({
-  control: styles => ({ ...styles, cursor: 'pointer' }),
-  option: styles => ({ ...styles, cursor: 'pointer' }),
-  input: styles => ({
+  control: (styles) => ({ ...styles, cursor: 'pointer' }),
+  option: (styles) => ({ ...styles, cursor: 'pointer' }),
+  input: (styles) => ({
     ...styles,
     width: isMobile ? '100%' : '100%',
     minHeight: '35px',
     lineHeight: '35px',
     color: theme.highBlack,
-    cursor: 'pointer'
+    cursor: 'pointer',
   }),
-  placeholder: styles => ({
+  placeholder: (styles) => ({
     ...styles,
     color: theme.lowBlack,
     cursor: 'pointer',
-    fontSize: isMobile && '15px'
+    fontSize: isMobile && '15px',
   }),
-  singleValue: styles => ({
+  singleValue: (styles) => ({
     ...styles,
     color: theme.highBlack,
-    cursor: 'pointer'
-  })
+    cursor: 'pointer',
+  }),
 })
 
 export const selectColorsResolver = ({ selectTheme, theme }) => ({
@@ -45,7 +45,7 @@ export const selectColorsResolver = ({ selectTheme, theme }) => ({
   primary50: addAlphaChannel(theme.primaryColor, '0.5'),
   primary: theme.primaryColor,
   neutral20: theme.lowBlack,
-  neutral30: theme.mediumBlack
+  neutral30: theme.mediumBlack,
 })
 
 export const selectConditionalValueResolver = ({ secondColumn, args, i }) => {
@@ -67,7 +67,7 @@ export const selectConditionalValueResolver = ({ secondColumn, args, i }) => {
   return conditionalValue
 }
 
-export const generateTestsGrid = number => {
+export const generateTestsGrid = (number) => {
   const array = []
   for (let i = 0; i < number; i++) {
     array.push('70px')
@@ -90,14 +90,14 @@ export const generateTestsLabelAndName = ({ i, iloscArg }) => {
   return object
 }
 
-export const makeValidation = data => {
+export const makeValidation = (data) => {
   const { errors, isValid } = validateProfileInput(data)
   if (!isValid) {
     throw errors
   }
 }
 
-export const formatErrorMessages = err => {
+export const formatErrorMessages = (err) => {
   const error = {}
   if (typeof err === 'string') {
     error.messages = [err]
