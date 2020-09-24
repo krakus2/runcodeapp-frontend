@@ -45,7 +45,7 @@ export const generateTaskStructure = (task) => {
   const finalResult = {}
   finalResult.title = task.tytulZadania
   finalResult.description = task.opisZadania
-  finalResult.code = task.code.replace(/  |\r\n|\n|\r/gm, '') //usuwa wszystkie tabulacje i znaki nowej linii
+  finalResult.code = task.code
   finalResult.tests = []
 
   for (let i = 0; i < task.iloscWynikow; i++) {
